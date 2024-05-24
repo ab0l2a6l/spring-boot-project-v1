@@ -1,7 +1,10 @@
 package com.example.springbootproject.controller;
 
 
-import com.example.springbootproject.entity.Professor;
+import com.example.springbootproject.dto.professor.AddProfessorDTO;
+import com.example.springbootproject.dto.professor.UpdateProfessorDTO;
+import com.example.springbootproject.dto.professor.ViewProfessorDTO;
+import com.example.springbootproject.mapper.ProfessorMapper;
 import com.example.springbootproject.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,17 +18,18 @@ import java.util.List;
 public class ProfessorController {
 
     private final ProfessorService professorService;
+    private final ProfessorMapper professorMapper;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Professor save(@RequestBody Professor professor) {
-        return professorService.save(professor);
+    public ViewProfessorDTO save(@RequestBody AddProfessorDTO addProfessorDTO) {
+        return professorMapper.toViewDTO(professorService.save(professorMapper.toEntity(addProfessorDTO)));
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public Professor update(@RequestBody Professor professor) {
-        return professorService.update(professor);
+    public ViewProfessorDTO update(@RequestBody UpdateProfessorDTO updateProfessorDTO) {
+        return professorMapper.toViewDTO(professorService.update(professorMapper.toEntity(updateProfessorDTO)));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -35,17 +39,17 @@ public class ProfessorController {
     }
 
     @GetMapping("/findById/{id}")
-    public Professor findById(@PathVariable long id) {
-        return professorService.findById(id);
+    public ViewProfessorDTO findById(@PathVariable long id) {
+        return professorMapper.toViewDTO(professorService.findById(id));
     }
 
     @GetMapping("/findByCode/{code}")
-    public Professor findByCode(@PathVariable int code) {
-        return professorService.findByCode(code);
+    public ViewProfessorDTO findByCode(@PathVariable int code) {
+        return professorMapper.toViewDTO(professorService.findByCode(code));
     }
 
     @GetMapping("/findAll")
-    public List<Professor> findAll() {
-        return professorService.findAll();
+    public List<ViewProfessorDTO> findAll() {
+        return professorMapper.toListViewDTO(professorService.findAll());
     }
 }

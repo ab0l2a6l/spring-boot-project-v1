@@ -45,7 +45,7 @@ public class CourseController {
     }
 
     @GetMapping("/findAll")
-    public List<Course> findAll() {
-        return courseService.findAll();
+    public List<ViewCourseDTO> findAll() {
+        return courseMapper.toListViewDTO(courseService.findAll());
     }
 }

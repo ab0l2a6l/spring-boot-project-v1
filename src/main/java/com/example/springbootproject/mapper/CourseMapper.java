@@ -10,7 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 @RequiredArgsConstructor
@@ -39,6 +39,10 @@ public class CourseMapper {
         viewCourseDTO.setStudentNumbers(studentNumbers);
 
         return viewCourseDTO;
+    }
+
+    public List<ViewCourseDTO> toListViewDTO(List<Course> courseList) {
+        return courseList.stream().map(this::toViewDTO).toList();
     }
 
 }
