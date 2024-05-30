@@ -2,7 +2,9 @@ package com.example.springbootproject.dto.user;
 
 import com.example.springbootproject.dto.base.ViewBaseDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ViewUserDTO extends ViewBaseDTO {
     private String name;
