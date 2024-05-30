@@ -41,9 +41,14 @@ public class ProfessorService {
         return professor.get();
     }
 
-    public Professor update(Professor professor) {
-        findById(professor.getId());
-        return professorRepository.save(professor);
+    public Professor update(Professor professorUpdate) {
+        Professor professor = findById(professorUpdate.getId());
+
+        professorUpdate.setNationalCode(professor.getNationalCode());
+        professorUpdate.setUsername(professor.getUsername());
+        professorUpdate.setCode(professor.getCode());
+
+        return professorRepository.save(professorUpdate);
     }
 
     public void deleteById(long id) {

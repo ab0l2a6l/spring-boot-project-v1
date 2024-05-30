@@ -49,9 +49,14 @@ public class StudentService {
         return student.get();
     }
 
-    public Student update(Student student) {
-        findById(student.getId());
-        return studentRepository.save(student);
+    public Student update(Student studentUpdate) {
+        Student student = findById(studentUpdate.getId());
+
+        studentUpdate.setNationalCode(student.getNationalCode());
+        studentUpdate.setStdNumber(student.getStdNumber());
+        studentUpdate.setUsername(student.getUsername());
+
+        return studentRepository.save(studentUpdate);
     }
 
     public void deleteById(long id) {

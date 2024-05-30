@@ -32,9 +32,12 @@ public class CourseService {
         return course.get();
     }
 
-    public Course update(Course course) {
-        findById(course.getId());
-        return courseRepository.save(course);
+    public Course update(Course courseUpdate) {
+        Course course = findById(courseUpdate.getId());
+
+        courseUpdate.setCode(course.getCode());
+
+        return courseRepository.save(courseUpdate);
     }
 
     public void deleteById(long id) {

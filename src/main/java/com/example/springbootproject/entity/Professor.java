@@ -2,14 +2,12 @@ package com.example.springbootproject.entity;
 
 import com.example.springbootproject.enums.AcademicRank;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table
 @Data

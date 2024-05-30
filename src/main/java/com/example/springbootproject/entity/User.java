@@ -2,13 +2,11 @@ package com.example.springbootproject.entity;
 
 import com.example.springbootproject.enums.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 @Data
 @Builder
