@@ -3,8 +3,14 @@ package com.example.springbootproject.controller;
 import com.example.springbootproject.dto.course.AddCourseDTO;
 import com.example.springbootproject.dto.course.UpdateCourseDTO;
 import com.example.springbootproject.dto.course.ViewCourseDTO;
+import com.example.springbootproject.dto.professor.ViewProfessorDTO;
+import com.example.springbootproject.dto.student.ViewStudentDTO;
 import com.example.springbootproject.entity.Course;
+import com.example.springbootproject.entity.Professor;
+import com.example.springbootproject.entity.Student;
 import com.example.springbootproject.mapper.CourseMapper;
+import com.example.springbootproject.mapper.ProfessorMapper;
+import com.example.springbootproject.mapper.StudentMapper;
 import com.example.springbootproject.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +25,8 @@ public class CourseController {
 
     private final CourseService courseService;
     private final CourseMapper courseMapper;
+    private final StudentMapper studentMapper;
+    private final ProfessorMapper professorMapper;
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ViewCourseDTO save(@RequestBody AddCourseDTO addCourseDTO) {
@@ -47,5 +55,41 @@ public class CourseController {
     @GetMapping("/findAll")
     public List<ViewCourseDTO> findAll() {
         return courseMapper.toListViewDTO(courseService.findAll());
+    }
+
+    @GetMapping("/{codeCourse}/students")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ViewStudentDTO> listStudents(@PathVariable int codeCourse) {
+        List<Student> students = courseService.listStudents(codeCourse);
+        return studentMapper.toListViewDTO(students);
+    }
+
+    @PostMapping("/{codeCourse}/students/add/{stdNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addStudent(@PathVariable int codeCourse, @PathVariable long stdNumber) {
+        courseService.addStudent(codeCourse, stdNumber);
+    }
+
+    @DeleteMapping("/{codeCourse}/students/delete/{stdNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeStudent(@PathVariable int codeCourse, @PathVariable long stdNumber) {
+        courseService.removeStudent(codeCourse, stdNumber);
+    }
+    @PostMapping("/{codeCourse}/professor/add/{codeProfessor}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addProfessor(@PathVariable int codeCourse, @PathVariable int codeProfessor) {
+        courseService.addProfessor(codeCourse, codeProfessor);
+    }
+
+    @DeleteMapping("/{codeCourse}/professor/remove")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeStudent(@PathVariable int codeCourse) {
+        courseService.removeProfessor(codeCourse);
+    }
+
+    @GetMapping("/{codeCourse}/professor")
+    public ViewProfessorDTO getProfessor(@PathVariable int codeCourse) {
+        Professor professor = courseService.getProfessor(codeCourse);
+        return professorMapper.toViewDTO(professor);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.springbootproject.service;
 
+import com.example.springbootproject.entity.Course;
 import com.example.springbootproject.entity.Student;
 import com.example.springbootproject.exception.ConflictException;
 import com.example.springbootproject.exception.NotFoundException;
@@ -32,22 +33,6 @@ public class StudentService {
         }
         return studentRepository.save(student);
     }
-    public Student findById(long id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()) {
-            throw new NotFoundException("student not found");
-        }
-        return student.get();
-    }
-
-
-    public Student findByStdNumber(long stdNumber) {
-        Optional<Student> student = studentRepository.findByStdNumber(stdNumber);
-        if (student.isEmpty()) {
-            throw new NotFoundException("student not found");
-        }
-        return student.get();
-    }
 
     public Student update(Student studentUpdate) {
         Student student = findById(studentUpdate.getId());
@@ -64,7 +49,32 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    public void deleteAll() {
+        studentRepository.deleteAll();
+    }
+
+    public Student findById(long id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
+            throw new NotFoundException("student not found");
+        }
+        return student.get();
+    }
+
+    public Student findByStdNumber(long stdNumber) {
+        Optional<Student> student = studentRepository.findByStdNumber(stdNumber);
+        if (student.isEmpty()) {
+            throw new NotFoundException("student not found");
+        }
+        return student.get();
+    }
+
     public List<Student> findAll() {
         return studentRepository.findAll();
+    }
+
+    public List<Course> listCoursesStudent(long stdNumber) {
+        Student student = findByStdNumber(stdNumber);
+        return student.getCourses().stream().toList();
     }
 }

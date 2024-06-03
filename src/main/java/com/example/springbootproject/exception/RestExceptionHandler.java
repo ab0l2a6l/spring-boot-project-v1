@@ -29,5 +29,4 @@ public class RestExceptionHandler {
         );
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
-
 }

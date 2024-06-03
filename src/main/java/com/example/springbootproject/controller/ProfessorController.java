@@ -1,9 +1,12 @@
 package com.example.springbootproject.controller;
 
 
+import com.example.springbootproject.dto.course.ViewCourseDTO;
 import com.example.springbootproject.dto.professor.AddProfessorDTO;
 import com.example.springbootproject.dto.professor.UpdateProfessorDTO;
 import com.example.springbootproject.dto.professor.ViewProfessorDTO;
+import com.example.springbootproject.entity.Course;
+import com.example.springbootproject.mapper.CourseMapper;
 import com.example.springbootproject.mapper.ProfessorMapper;
 import com.example.springbootproject.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ public class ProfessorController {
 
     private final ProfessorService professorService;
     private final ProfessorMapper professorMapper;
+    private final CourseMapper courseMapper;;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,5 +55,11 @@ public class ProfessorController {
     @GetMapping("/findAll")
     public List<ViewProfessorDTO> findAll() {
         return professorMapper.toListViewDTO(professorService.findAll());
+    }
+
+    @GetMapping("/{codeProfessor}/course/list")
+    public List<ViewCourseDTO> listCoursesProfessor(@PathVariable int codeProfessor) {
+        List<Course> courses = professorService.listCoursesProfessor(codeProfessor);
+        return courseMapper.toListViewDTO(courses);
     }
 }

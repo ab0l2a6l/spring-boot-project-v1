@@ -1,8 +1,11 @@
 package com.example.springbootproject.controller;
 
+import com.example.springbootproject.dto.course.ViewCourseDTO;
 import com.example.springbootproject.dto.student.AddStudentDTO;
 import com.example.springbootproject.dto.student.UpdateStudentDTO;
 import com.example.springbootproject.dto.student.ViewStudentDTO;
+import com.example.springbootproject.entity.Course;
+import com.example.springbootproject.mapper.CourseMapper;
 import com.example.springbootproject.mapper.StudentMapper;
 import com.example.springbootproject.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ public class StudentController {
 
     private final StudentService studentService;
     private final StudentMapper studentMapper;
+    private final CourseMapper courseMapper;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,5 +54,11 @@ public class StudentController {
     @GetMapping("/findAll")
     public List<ViewStudentDTO> findAll() {
         return studentMapper.toListViewDTO(studentService.findAll());
+    }
+
+    @GetMapping("/{stdNumber}/course/list")
+    public List<ViewCourseDTO> listCoursesStudent(@PathVariable long stdNumber) {
+        List<Course> courses = studentService.listCoursesStudent(stdNumber);
+        return courseMapper.toListViewDTO(courses);
     }
 }

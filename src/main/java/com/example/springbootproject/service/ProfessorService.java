@@ -33,13 +33,6 @@ public class ProfessorService {
         }
         return professorRepository.save(professor);
     }
-    public Professor findById(long id) {
-        Optional<Professor> professor = professorRepository.findById(id);
-        if (professor.isEmpty()) {
-            throw new NotFoundException("professor not found");
-        }
-        return professor.get();
-    }
 
     public Professor update(Professor professorUpdate) {
         Professor professor = findById(professorUpdate.getId());
@@ -56,6 +49,13 @@ public class ProfessorService {
         professorRepository.deleteById(id);
     }
 
+    public Professor findById(long id) {
+        Optional<Professor> professor = professorRepository.findById(id);
+        if (professor.isEmpty()) {
+            throw new NotFoundException("professor not found");
+        }
+        return professor.get();
+    }
 
     public Professor findByCode(int code) {
         Optional<Professor> professor = professorRepository.findByCode(code);
@@ -67,5 +67,10 @@ public class ProfessorService {
 
     public List<Professor> findAll() {
         return professorRepository.findAll();
+    }
+
+    public List<Course> listCoursesProfessor(int code) {
+        Professor professor = findByCode(code);
+        return professor.getCourses().stream().toList();
     }
 }
